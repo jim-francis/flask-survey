@@ -1,0 +1,1 @@
+const homeButton = document.querySelector("#homeButton")
