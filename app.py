@@ -20,6 +20,24 @@ def ask_question(question_id):
     # question_to_ask = satisfaction_survey.questions
     question_id = len(responses)
     question = survey.questions[question_id]
+
+    if (len(responses) != question_id):
+        flash(f"Bad question ID: {question_id}.")
+        return redirect(f"/question/{len(responses)}")
+
     return render_template(
         "question.html", question_num=question_id, question=question)
     
+@app.route("/answer", methods=["POST"])
+def handle_question():
+    choice = request.form['answer']
+    responses.append(choice)
+
+    if (len(responses) == len(survey.questions)):
+        return redirect("/finished")
+    else:
+        return redirect(f"/question/{len(responses)}")
+
+@app.route("/finished")
+def show_gratitude():
+    return "Thanks!"
